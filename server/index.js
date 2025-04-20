@@ -35,16 +35,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-//change
-app.get('/', (req, res) => {
-  res.json({ 
-    message: "Diabetes Risk API is running",
-    endpoints: {
-      calculateRisk: "/api/calculate-risk",
-      results: "/api/results"
-    }
-  });
-});
+//chan
+
 // Connect to MongoDB Atlas
 const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/diabetes-db-jayant";
 
@@ -62,7 +54,7 @@ const calculateRiskRoute = require("./routes/riskCalculator");
 const resultsRoute = require("./routes/resultRoutes");
 
 // Use Routes
-app.use("/api/calculate-risk", calculateRiskRoute); //change
+app.use("/api", calculateRiskRoute); //change
 app.use("/api/results", resultsRoute);
 
 
@@ -77,4 +69,3 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-module.exports = app;
