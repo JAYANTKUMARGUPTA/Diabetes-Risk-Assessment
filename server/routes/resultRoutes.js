@@ -14,6 +14,9 @@
 // });
 
 // module.exports = router;
+
+
+// mongodb atlas connection
 const express = require("express");
 const router = express.Router();
 const Result = require("../models/Result");
