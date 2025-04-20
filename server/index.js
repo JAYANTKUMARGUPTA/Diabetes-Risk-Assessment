@@ -35,6 +35,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.json({ 
+    message: "Diabetes Risk API is running",
+    endpoints: {
+      calculateRisk: "/api/calculate-risk",
+      results: "/api/results"
+    }
+  });
+});
 // Connect to MongoDB Atlas
 const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/diabetes-db-jayant";
 
@@ -55,9 +64,7 @@ const resultsRoute = require("./routes/resultRoutes");
 app.use("/api", calculateRiskRoute);
 app.use("/api/results", resultsRoute);
 
-app.get('/', (req, res) => {
-  res.json({ message: "API is running" });
-});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
