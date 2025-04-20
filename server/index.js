@@ -55,6 +55,9 @@ const resultsRoute = require("./routes/resultRoutes");
 app.use("/api", calculateRiskRoute);
 app.use("/api/results", resultsRoute);
 
+app.get('/', (req, res) => {
+  res.json({ message: "API is running" });
+});
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

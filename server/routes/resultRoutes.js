@@ -22,6 +22,7 @@ const router = express.Router();
 const Result = require("../models/Result");
 
 // GET all results
+
 router.get("/", async (req, res) => {
   try {
     const results = await Result.find().sort({ createdAt: -1 });
