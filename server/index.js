@@ -35,6 +35,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+//change
 app.get('/', (req, res) => {
   res.json({ 
     message: "Diabetes Risk API is running",
@@ -61,7 +62,7 @@ const calculateRiskRoute = require("./routes/riskCalculator");
 const resultsRoute = require("./routes/resultRoutes");
 
 // Use Routes
-app.use("/api", calculateRiskRoute);
+app.use("/api/calculate-risk", calculateRiskRoute); //change
 app.use("/api/results", resultsRoute);
 
 
