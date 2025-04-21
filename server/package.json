@@ -1,4 +1,10 @@
 {
+  "script":{
+    "start":"node index.js",
+    "dev": "nodemon index.js",
+    "build":"echo 'no build'"
+  },
+
   "dependencies": {
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
