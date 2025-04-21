@@ -85,7 +85,9 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['https://diabetes-risk-assessment-2t2h.vercel.app']
+  origin: ['https://diabetes-risk-assessment-2t2h.vercel.app',
+    'http://localhost:5000'
+  ]
 }));
 app.use(express.json());
 
