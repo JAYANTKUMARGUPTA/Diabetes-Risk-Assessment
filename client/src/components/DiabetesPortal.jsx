@@ -62,6 +62,7 @@ const DiabetesPortal = () => {
         if (!riskRes.ok) {
           // Try to parse as JSON, if fails show raw text
           try {
+            const response = await(`${import.meta.env.VITE_SERVER_LINK}/diabetesportal`,formdata) //change
             const errorData = JSON.parse(responseText);
             throw new Error(errorData.message || "Risk calculation failed");
           } catch {
