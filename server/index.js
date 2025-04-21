@@ -32,7 +32,9 @@ const mongoose = require("mongoose");
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['https://diabetes-risk-assessment-2t2h.vercel.app']
+}));
 app.use(express.json());
 
 //chan
