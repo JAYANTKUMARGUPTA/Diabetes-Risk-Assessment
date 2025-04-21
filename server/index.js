@@ -27,56 +27,6 @@
 // });
 
 //atlas
-// require('dotenv').config();
-// const express = require("express");
-// const cors = require("cors");
-// const mongoose = require("mongoose");
-// const app = express();
-
-// // Middleware
-// app.use(cors({
-//   origin: ['https://diabetes-risk-assessment-2t2h.vercel.app']
-// }));
-// app.use(express.json());
-
-// //chan
-// app.get('/', (req, res) => res.json({ status: 'API running' }));
-// module.exports = app;
-
-// // Connect to MongoDB Atlas
-// const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/diabetes-db-jayant";
-
-// mongoose.connect(mongoURI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   retryWrites: true,
-//   w: 'majority'
-// })
-// .then(() => console.log("MongoDB connected successfully"))
-// .catch((err) => console.error("MongoDB connection error:", err));
-
-// // Import Routes
-// const calculateRiskRoute = require("./routes/riskCalculator");
-// const resultsRoute = require("./routes/resultRoutes");
-
-// // Use Routes
-// app.use("/api", calculateRiskRoute); //change
-// app.use("/api/results", resultsRoute);
-
-
-// // Error handling middleware
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).json({ message: "Something went wrong!", error: err.message });
-// });
-
-
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
-
-//vercel
 require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
@@ -84,24 +34,13 @@ const mongoose = require("mongoose");
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: ['https://diabetes-risk-assessment-2t2h.vercel.app',
-    'http://localhost:5000'
-  ]
-}));
+app.use(cors());
 app.use(express.json());
 
-// Root route - MUST come before other routes
-app.get('/', (req, res) => res.json({ 
-  status: 'API running',
-  endpoints: {
-    calculate: '/api/calculate-risk',
-    results: '/api/results'
-  }
-}));
 
-// MongoDB Connection
+// Connect to MongoDB Atlas
 const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/diabetes-db-jayant";
+
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -109,25 +48,26 @@ mongoose.connect(mongoURI, {
   w: 'majority'
 })
 .then(() => console.log("MongoDB connected successfully"))
-.catch(err => console.error("MongoDB connection error:", err));
+.catch((err) => console.error("MongoDB connection error:", err));
 
-// Routes
+// Import Routes
 const calculateRiskRoute = require("./routes/riskCalculator");
 const resultsRoute = require("./routes/resultRoutes");
-app.use("/api", calculateRiskRoute);
+
+// Use Routes
+app.use("/api", calculateRiskRoute); //change
 app.use("/api/results", resultsRoute);
 
-// Error handler (must be last middleware)
+
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: "Internal Server Error" });
+  res.status(500).json({ message: "Something went wrong!", error: err.message });
 });
 
-// Vercel-specific export
-module.exports = app;
 
-// Local server (only runs when not in Vercel)
-if (require.main === module) {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => console.log(`Local server on port ${PORT}`));
-}
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
