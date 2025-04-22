@@ -149,7 +149,7 @@ const DiabetesPortal = () => {
         setRiskLevel(risk);
   
         // ✅ Update to your deployed backend URL
-        const saveRes = await fetch(`${API_URL}/api/calculate-risk?save=false`, {
+        const saveRes = await fetch(`${API_URL}/api/results/submit`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
