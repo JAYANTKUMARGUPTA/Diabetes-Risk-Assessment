@@ -34,23 +34,23 @@ const mongoose = require("mongoose");
 const app = express();
 
 // Middleware
-// app.use(cors());
-app.use(cors({
-  origin: "https://diabetes-risk-assessment-1.onrender.com"
-}));
+app.use(cors());
+// app.use(cors({
+//   origin: "https://diabetes-risk-assessment-1.onrender.com"
+// }));
 
 app.use(express.json());
 
-app.get('/' , (req,res)=>{
-  res.send({
-    "message": "Diabetes Risk API is running",
-    "endpoints": {
-      "calculateRisk": "/api/calculate-risk",
-      "results": "/api/results"
-    }
-  }
-  )
-})
+// app.get('/' , (req,res)=>{
+//   res.send({
+//     "message": "Diabetes Risk API is running",
+//     "endpoints": {
+//       "calculateRisk": "/api/calculate-risk",
+//       "results": "/api/results"
+//     }
+//   }
+//   )
+// })
 
 // Connect to MongoDB Atlas
 const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/diabetes-db-jayant";
