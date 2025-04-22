@@ -116,11 +116,11 @@ const DiabetesPortal = () => {
 
   const handleSubmit = async () => {
     const formErrors = validateForm(formData);
+    const API_URL = import.meta.env.VITE_API_URL;
     if (Object.keys(formErrors).length === 0) {
       setIsLoading(true);
       try {
         // ✅ Update to your deployed backend URL
-        const API_URL = import.meta.env.VITE_API_URL;
         const riskRes = await fetch(`${API_URL}/api/calculate-risk?save=false`, {
           method: "POST",
           headers: {
