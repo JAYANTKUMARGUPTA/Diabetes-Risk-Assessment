@@ -34,11 +34,22 @@ const mongoose = require("mongoose");
 const app = express();
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: "https://diabetes-risk-assessment-1.onrender.com"
+}));
+
 app.use(express.json());
 
-app.get('/ping' , (req,res)=>{
-  res.send("pong")
+app.get('/' , (req,res)=>{
+  res.send({
+    "message": "Diabetes Risk API is running",
+    "endpoints": {
+      "calculateRisk": "/api/calculate-risk",
+      "results": "/api/results"
+    }
+  }
+  )
 })
 
 // Connect to MongoDB Atlas
