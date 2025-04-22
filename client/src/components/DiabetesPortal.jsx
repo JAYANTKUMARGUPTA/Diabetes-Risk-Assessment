@@ -116,7 +116,7 @@ const DiabetesPortal = () => {
 
   const handleSubmit = async () => {
     const formErrors = validateForm(formData);
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    var API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     if (Object.keys(formErrors).length === 0) {
       setIsLoading(true);
       try {
