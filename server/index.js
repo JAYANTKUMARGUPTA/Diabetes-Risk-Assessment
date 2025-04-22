@@ -72,6 +72,9 @@ const resultsRoute = require("./routes/resultRoutes");
 app.use("/api", calculateRiskRoute); //change
 app.use("/api/results", resultsRoute);
 
+app.get("/",(req,res)=>[
+  res.send("helloo")
+])
 
 // Error handling middleware
 app.use((err, req, res, next) => {
