@@ -32,14 +32,13 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
-
 // Middleware
-app.use(cors({
-  origin: "*"
-}));
 // app.use(cors({
-//   origin: "https://diabetes-risk-assessment-1.onrender.com"
+//   origin: "*"
 // }));
+app.use(cors({
+  origin: "https://diabetes-risk-assessment-1.onrender.com"
+}));
 
 app.use(express.json());
 
@@ -73,6 +72,7 @@ const resultsRoute = require("./routes/resultRoutes");
 // Use Routes
 app.use("/api", calculateRiskRoute); //change
 app.use("/api/results", resultsRoute);
+
 
 app.get("/",(req,res)=>[
   res.send("helloo")
