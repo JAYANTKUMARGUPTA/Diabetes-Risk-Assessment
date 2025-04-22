@@ -231,12 +231,14 @@ const calculateRiskScore = (data) => {
     if (data.heartDisease) score += 2;
     if (age > 45) score += 2;
 
-    if (hbA1c > 6.5) score += 4;
-    else if (hbA1c > 5.6) score += 2;
-
-    if (bloodSugar < 140) score += 2;
-    else if (bloodSugar < 199) score += 3;
+    if (hbA1c < 5.7) score += 2;
+    else if (hbA1c >= 5.6 && hbA1c <= 6.4) score += 3;
     else score += 4;
+
+    if (bloodSugar < 70) score += 4;
+    else if (bloodSugar >= 70 && bloodSugar <= 99 ) score += 2;
+    else if (bloodSugar >= 100 && bloodSugar <= 125 ) score += 3;
+    else score +=4;
 
     Object.values(data.symptoms).forEach(val => val && score++);
 
@@ -259,7 +261,7 @@ const getKeyFactors = (data) => {
     if (data.hypertension) factors.push("Hypertension");
     if (data.heartDisease) factors.push("Heart disease");
     if (hbA1c > 6.5) factors.push(`Elevated hbA1c (${hbA1c}%)`);
-    if (bloodSugar > 199) factors.push(`High blood sugar (${bloodSugar} mg/dL)`);
+    if (bloodSugar > 125) factors.push(`High blood sugar (${bloodSugar} mg/dL)`);
 
     const activeSymptoms = Object.entries(data.symptoms)
         .filter(([_, v]) => v)

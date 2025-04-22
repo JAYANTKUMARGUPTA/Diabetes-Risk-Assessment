@@ -33,26 +33,14 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
 // Middleware
-// app.use(cors({
-//   origin: "*"
-// }));
-app.use(cors({
+// app.use(cors());
+
+app.use(cors({   //change for render
   origin: "https://diabetes-risk-assessment-1.onrender.com",
   methods: ["GET", "POST", "DELETE"]
 }));
 
 app.use(express.json());
-
-// app.get('/' , (req,res)=>{
-//   res.send({
-//     "message": "Diabetes Risk API is running",
-//     "endpoints": {
-//       "calculateRisk": "/api/calculate-risk",
-//       "results": "/api/results"
-//     }
-//   }
-//   )
-// })
 
 // Connect to MongoDB Atlas
 const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/diabetes-db-jayant";
@@ -71,11 +59,11 @@ const calculateRiskRoute = require("./routes/riskCalculator");
 const resultsRoute = require("./routes/resultRoutes");
 
 // Use Routes
-app.use("/api", calculateRiskRoute); //change
+app.use("/api", calculateRiskRoute); 
 app.use("/api/results", resultsRoute);
 
 
-app.get("/",(req,res)=>{
+app.get("/",(req,res)=>{   //change for render
   res.json({
     message: "Diabetes Risk API is running",
     endpoints: 
