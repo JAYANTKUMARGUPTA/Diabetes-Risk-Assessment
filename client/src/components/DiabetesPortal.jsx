@@ -40,88 +40,13 @@ const DiabetesPortal = () => {
     return newErrors;
   };
 
-  const handleSubmit = async () => {
-    const formErrors = validateForm(formData);
-    if (Object.keys(formErrors).length === 0) {
-      setIsLoading(true);
-      try {
-        // First calculate risk
-        const riskRes = await fetch("http://localhost:5000/api/calculate-risk?save=false", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify(formData),
-        });
-
-        // Get the raw response text first
-        const responseText = await riskRes.text();
-
-        // Check if response is OK
-        if (!riskRes.ok) {
-          // Try to parse as JSON, if fails show raw text
-          try {
-            const errorData = JSON.parse(responseText);
-            throw new Error(errorData.message || "Risk calculation failed");
-          } catch {
-            // Create a temporary DOM element to decode HTML entities
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = responseText;
-            const decodedError = tempDiv.textContent || tempDiv.innerText || responseText;
-
-            // Show the raw error in alert with <pre> formatting
-            alert(`Server Error:\n\n${decodedError}`);
-            throw new Error("Request failed");
-          }
-        }
-
-        // If response is OK, parse as JSON
-        const risk = JSON.parse(responseText);
-        setRiskLevel(risk);
-
-        // Then save results to database
-        const saveRes = await fetch("http://localhost:5000/api/results/submit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify({ ...formData, riskLevel: risk }),
-        });
-
-        if (!saveRes.ok) {
-          const saveErrorText = await saveRes.text();
-          try {
-            const errorData = JSON.parse(saveErrorText);
-            alert(`Failed to save results: ${errorData.message}`);
-          } catch {
-            alert(`Failed to save results: ${saveErrorText}`);
-          }
-        }
-
-        setStep(4);
-        setErrors({});
-      } catch (error) {
-        console.error("Error:", error);
-        // The alert for the main error is already shown above
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      setErrors(formErrors);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
   // const handleSubmit = async () => {
   //   const formErrors = validateForm(formData);
-  //   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   //   if (Object.keys(formErrors).length === 0) {
   //     setIsLoading(true);
   //     try {
-  //       // ✅ Update to your deployed backend URL
-  //       const riskRes = await fetch(`${API_URL}/api/calculate-risk?save=false`, {
+  //       // First calculate risk
+  //       const riskRes = await fetch("http://localhost:5000/api/calculate-risk?save=false", {
   //         method: "POST",
   //         headers: {
   //           "Content-Type": "application/json",
@@ -129,27 +54,34 @@ const DiabetesPortal = () => {
   //         },
   //         body: JSON.stringify(formData),
   //       });
-  
+
+  //       // Get the raw response text first
   //       const responseText = await riskRes.text();
-  
+
+  //       // Check if response is OK
   //       if (!riskRes.ok) {
+  //         // Try to parse as JSON, if fails show raw text
   //         try {
   //           const errorData = JSON.parse(responseText);
   //           throw new Error(errorData.message || "Risk calculation failed");
   //         } catch {
+  //           // Create a temporary DOM element to decode HTML entities
   //           const tempDiv = document.createElement('div');
   //           tempDiv.innerHTML = responseText;
   //           const decodedError = tempDiv.textContent || tempDiv.innerText || responseText;
+
+  //           // Show the raw error in alert with <pre> formatting
   //           alert(`Server Error:\n\n${decodedError}`);
   //           throw new Error("Request failed");
   //         }
   //       }
-  
+
+  //       // If response is OK, parse as JSON
   //       const risk = JSON.parse(responseText);
   //       setRiskLevel(risk);
-  
-  //       // ✅ Update to your deployed backend URL
-  //       const saveRes = await fetch(`${API_URL}/api/results/submit`, {
+
+  //       // Then save results to database
+  //       const saveRes = await fetch("http://localhost:5000/api/results/submit", {
   //         method: "POST",
   //         headers: {
   //           "Content-Type": "application/json",
@@ -157,7 +89,7 @@ const DiabetesPortal = () => {
   //         },
   //         body: JSON.stringify({ ...formData, riskLevel: risk }),
   //       });
-  
+
   //       if (!saveRes.ok) {
   //         const saveErrorText = await saveRes.text();
   //         try {
@@ -167,11 +99,12 @@ const DiabetesPortal = () => {
   //           alert(`Failed to save results: ${saveErrorText}`);
   //         }
   //       }
-  
+
   //       setStep(4);
   //       setErrors({});
   //     } catch (error) {
   //       console.error("Error:", error);
+  //       // The alert for the main error is already shown above
   //     } finally {
   //       setIsLoading(false);
   //     }
@@ -180,6 +113,73 @@ const DiabetesPortal = () => {
   //     window.scrollTo({ top: 0, behavior: 'smooth' });
   //   }
   // };
+
+  const handleSubmit = async () => {
+    const formErrors = validateForm(formData);
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    if (Object.keys(formErrors).length === 0) {
+      setIsLoading(true);
+      try {
+        // ✅ Update to your deployed backend URL
+        const riskRes = await fetch(`${API_URL}/api/calculate-risk?save=false`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify(formData),
+        });
+  
+        const responseText = await riskRes.text();
+  
+        if (!riskRes.ok) {
+          try {
+            const errorData = JSON.parse(responseText);
+            throw new Error(errorData.message || "Risk calculation failed");
+          } catch {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = responseText;
+            const decodedError = tempDiv.textContent || tempDiv.innerText || responseText;
+            alert(`Server Error:\n\n${decodedError}`);
+            throw new Error("Request failed");
+          }
+        }
+  
+        const risk = JSON.parse(responseText);
+        setRiskLevel(risk);
+  
+        // ✅ Update to your deployed backend URL
+        const saveRes = await fetch(`${API_URL}/api/results/submit`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({ ...formData, riskLevel: risk }),
+        });
+  
+        if (!saveRes.ok) {
+          const saveErrorText = await saveRes.text();
+          try {
+            const errorData = JSON.parse(saveErrorText);
+            alert(`Failed to save results: ${errorData.message}`);
+          } catch {
+            alert(`Failed to save results: ${saveErrorText}`);
+          }
+        }
+  
+        setStep(4);
+        setErrors({});
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setErrors(formErrors);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
   
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
