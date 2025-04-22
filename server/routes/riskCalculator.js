@@ -188,6 +188,11 @@ const validateRequest = (req, res, next) => {
     if (name.length < 2 || name.length > 50) {
         return res.status(400).json({ message: "Name must be 2-50 characters" });
     }
+    
+    //height
+    if (height > 272){
+        return res.status(400).json({ message: "Valid height is required" });
+    }
 
     // Phone validation
     if (!phone) {
@@ -211,6 +216,7 @@ const validateRequest = (req, res, next) => {
     if (isNaN(age)) return res.status(400).json({ message: "Age must be a number" });
     if (age > 120) return res.status(400).json({ message: "Age must be under 120" });
     if (age < 1) return res.status(400).json({ message: "Age must be positive" });
+    if (weight > 1635) return res.status(400).json({ message: "higher weight" });
 
     next();
 };
@@ -262,6 +268,8 @@ const getKeyFactors = (data) => {
     if (data.heartDisease) factors.push("Heart disease");
     if (hbA1c > 6.5) factors.push(`Elevated hbA1c (${hbA1c}%)`);
     if (bloodSugar > 125) factors.push(`High blood sugar (${bloodSugar} mg/dL)`);
+    if (weight > 635) factors.push(`higher weight (${weight} kg)`);
+    if (height > 272) factors.push(`over height (${height} cm)`);
 
     const activeSymptoms = Object.entries(data.symptoms)
         .filter(([_, v]) => v)
