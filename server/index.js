@@ -37,6 +37,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/ping' , (req,res)=>{
+  res.send("pong")
+})
 
 // Connect to MongoDB Atlas
 const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/diabetes-db-jayant";
