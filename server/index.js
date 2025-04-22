@@ -75,9 +75,16 @@ app.use("/api", calculateRiskRoute); //change
 app.use("/api/results", resultsRoute);
 
 
-app.get("/",(req,res)=>[
-  res.send("helloo")
-])
+app.get("/",(req,res)=>{
+  res.json({
+    message: "Diabetes Risk API is running",
+    endpoints: 
+    {
+      calculateRisk: "/api/calculate-risk",
+      results: "/api/results"
+    }
+  })
+})
 
 // Error handling middleware
 app.use((err, req, res, next) => {
