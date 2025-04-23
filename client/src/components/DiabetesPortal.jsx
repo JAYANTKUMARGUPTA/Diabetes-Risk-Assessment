@@ -225,13 +225,13 @@ const DiabetesPortal = () => {
                 <div className="relative w-full max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-xl group">
                   <img
                     // src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                    src="diabetes.jpg"
+                    src="/public/diabetes.jpg"
                     alt="Health Assessment"
                     className="w-full h-64 md:h-80 object-cover transition-all duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
                     <div className="text-left text-white transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                      <p className="text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">Photo by National Cancer Institute</p>
+                      {/* <p className="text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">Photo by National Cancer Institute</p> */}
                       <h3 className="text-xl md:text-2xl font-bold">Early Detection Saves Lives</h3>
                       <p className="text-sm md:text-base opacity-90 mt-1">Know your risk factors today</p>
                     </div>
