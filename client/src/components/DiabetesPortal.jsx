@@ -225,7 +225,7 @@ const DiabetesPortal = () => {
                 <div className="relative w-full max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-xl group">
                   <img
                     // src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                    src="/public/diabetes.jpg"
+                    src="diabetes.jpg"
                     alt="Health Assessment"
                     className="w-full h-64 md:h-80 object-cover transition-all duration-500 group-hover:scale-105"
                   />
