@@ -32,7 +32,6 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
-const path = require('path');
 // Middleware
 // app.use(cors());
 
@@ -63,12 +62,6 @@ const resultsRoute = require("./routes/resultRoutes");
 // Use Routes
 app.use("/api", calculateRiskRoute); 
 app.use("/api/results", resultsRoute);
-
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-});
-
 
 app.get("/",(req,res)=>{   //change for render
   res.json({
