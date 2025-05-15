@@ -72,4 +72,48 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// Add this new route before module.exports
+router.get("/analysis/dashboard", async (req, res) => {
+  try {
+    // Get all results sorted by risk percentage
+    const results = await Result.find().sort({ "riskLevel.percentage": -1 });
+    
+    // Calculate statistics
+    const totalUsers = results.length;
+    const riskDistribution = {
+      low: results.filter(r => r.riskLevel.level === "Low").length,
+      moderate: results.filter(r => r.riskLevel.level === "Moderate").length,
+      high: results.filter(r => r.riskLevel.level === "High").length
+    };
+    
+    // Age distribution
+    const ageGroups = {
+      "18-30": results.filter(r => r.age >= 18 && r.age <= 30).length,
+      "31-45": results.filter(r => r.age > 30 && r.age <= 45).length,
+      "46-60": results.filter(r => r.age > 45 && r.age <= 60).length,
+      "60+": results.filter(r => r.age > 60).length
+    };
+    
+    // BMI analysis
+    const bmiData = results.map(r => {
+      const bmi = r.weight / ((r.height / 100) ** 2);
+      return {
+        bmi: bmi.toFixed(1),
+        risk: r.riskLevel.percentage
+      };
+    });
+    
+    res.status(200).json({
+      totalUsers,
+      riskDistribution,
+      ageGroups,
+      bmiData,
+      allResults: results
+    });
+    
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching analysis data", error });
+  }
+});
+
 module.exports = router;
