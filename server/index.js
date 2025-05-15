@@ -42,6 +42,7 @@ app.use(cors({   //change for render
 
 app.use(express.json());
 
+
 // Connect to MongoDB Atlas
 const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/diabetes-db-jayant";
 
