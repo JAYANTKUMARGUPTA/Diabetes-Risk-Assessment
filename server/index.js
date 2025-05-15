@@ -32,6 +32,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
+const path = require('path');
 // Middleware
 // app.use(cors());
 
@@ -41,6 +42,7 @@ app.use(cors({   //change for render
 }));
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
 
 // Connect to MongoDB Atlas
 const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/diabetes-db-jayant";
