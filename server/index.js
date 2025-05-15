@@ -63,6 +63,11 @@ app.use("/api", calculateRiskRoute);
 app.use("/api/results", resultsRoute);
 
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+
+
 app.get("/",(req,res)=>{   //change for render
   res.json({
     message: "Diabetes Risk API is running",
