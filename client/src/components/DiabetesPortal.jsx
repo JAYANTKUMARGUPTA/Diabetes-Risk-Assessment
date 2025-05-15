@@ -856,6 +856,15 @@ const DiabetesPortal = () => {
                     </svg>
                     Print Results
                   </button>
+
+                   <a
+                    href="/analytics"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-medium transition-colors duration-200 shadow-sm hover:shadow-md flex items-center justify-center"
+                  >
+                    <FaChartLine className="mr-2" />
+                    View Analytics Dashboard
+                  </a>
+                  
                 </div>
 
                 {/* Disclaimer */}
