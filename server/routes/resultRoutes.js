@@ -22,16 +22,6 @@ const router = express.Router();
 const Result = require("../models/Result");
 
 // GET all results
-
-router.get("/", async (req, res) => {
-  try {
-    const results = await Result.find().sort({ createdAt: -1 });
-    res.status(200).json(results);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching results", error });
-  }
-});
-
 router.get("/analysis/dashboard", async (req, res) => {
   try {
     // Get all results sorted by risk percentage
@@ -72,6 +62,15 @@ router.get("/analysis/dashboard", async (req, res) => {
     
   } catch (error) {
     res.status(500).json({ message: "Error fetching analysis data", error });
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const results = await Result.find().sort({ createdAt: -1 });
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching results", error });
   }
 });
 
