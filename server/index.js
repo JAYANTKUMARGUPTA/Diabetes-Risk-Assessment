@@ -36,7 +36,7 @@ const app = express();
 // app.use(cors());
 
 app.use(cors({   //change for render
-  origin: "https://diabetes-risk-assessment-1.onrender.com",
+  origin: "*",
   methods: ["GET", "POST", "DELETE"]
 }));
 
