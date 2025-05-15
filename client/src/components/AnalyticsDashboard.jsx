@@ -17,8 +17,8 @@ const AnalyticsDashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-                const response = await fetch('https://diabetes-risk-assessment-mqtw.onrender.com/api/results/analysis/dashboard');
+                const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                const response = await fetch(`${BASE_URL}/api/results/analysis/dashboard`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
