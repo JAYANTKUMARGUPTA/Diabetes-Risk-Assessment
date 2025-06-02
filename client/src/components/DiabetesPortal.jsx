@@ -120,6 +120,40 @@ const DiabetesPortal = () => {
     if (Object.keys(formErrors).length === 0) {
       setIsLoading(true);
       try {
+        useEffect(() => {
+          const fetchData = async () => {
+            try {
+              const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+              console.log(`Fetching analytics from: ${API_URL}/api/results/analysis/dashboard`);
+
+              const response = await fetch(`${API_URL}/api/results/analysis/dashboard`, {
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+              });
+
+              console.log(`Response status: ${response.status}`);
+
+              if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`Server error: ${errorText}`);
+                throw new Error(`Server responded with ${response.status}: ${errorText}`);
+              }
+
+              const result = await response.json();
+              console.log("Analytics data received:", result);
+              setData(result);
+
+            } catch (err) {
+              console.error('Full fetch error:', err);
+              setError(err.message);
+            } finally {
+              setLoading(false);
+            }
+          };
+          fetchData();
+        }, []);
         // ✅ Update to your deployed backend URL
         const riskRes = await fetch(`${API_URL}/api/calculate-risk?save=false`, {
           method: "POST",
@@ -129,9 +163,9 @@ const DiabetesPortal = () => {
           },
           body: JSON.stringify(formData),
         });
-  
+
         const responseText = await riskRes.text();
-  
+
         if (!riskRes.ok) {
           try {
             const errorData = JSON.parse(responseText);
@@ -144,10 +178,10 @@ const DiabetesPortal = () => {
             throw new Error("Request failed");
           }
         }
-  
+
         const risk = JSON.parse(responseText);
         setRiskLevel(risk);
-  
+
         // ✅ Update to your deployed backend URL
         const saveRes = await fetch(`${API_URL}/api/results/submit`, {
           method: "POST",
@@ -157,7 +191,7 @@ const DiabetesPortal = () => {
           },
           body: JSON.stringify({ ...formData, riskLevel: risk }),
         });
-  
+
         if (!saveRes.ok) {
           const saveErrorText = await saveRes.text();
           try {
@@ -167,7 +201,7 @@ const DiabetesPortal = () => {
             alert(`Failed to save results: ${saveErrorText}`);
           }
         }
-  
+
         setStep(4);
         setErrors({});
       } catch (error) {
@@ -180,7 +214,7 @@ const DiabetesPortal = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
-  
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
@@ -857,14 +891,14 @@ const DiabetesPortal = () => {
                     Print Results
                   </button>
 
-                   <a
+                  <a
                     href="/analytics"
                     className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-medium transition-colors duration-200 shadow-sm hover:shadow-md flex items-center justify-center"
                   >
                     <FaChartLine className="mr-2" />
                     View Analytics Dashboard
                   </a>
-                  
+
                 </div>
 
                 {/* Disclaimer */}
