@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaHeartbeat, FaWeight, FaRulerVertical, FaUserAlt, FaChartLine, FaExclamationTriangle } from "react-icons/fa";
 import { MdBloodtype, MdFamilyRestroom } from "react-icons/md";
 import { TbReportMedical } from "react-icons/tb";
+import { Link } from 'react-router-dom';
 
 const DiabetesPortal = () => {
   const [step, setStep] = useState(1);
@@ -892,13 +893,13 @@ const DiabetesPortal = () => {
                     Print Results
                   </button>
 
-                  <a
-                    href="/analytics"
+                  <Link
+                    to="/analytics"
                     className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-medium transition-colors duration-200 shadow-sm hover:shadow-md flex items-center justify-center"
                   >
                     <FaChartLine className="mr-2" />
                     View Analytics Dashboard
-                  </a>
+                  </Link>
 
                 </div>
 
