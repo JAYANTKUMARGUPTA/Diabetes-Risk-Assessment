@@ -180,42 +180,44 @@ const DiabetesPortal = () => {
       setErrors(formErrors);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
-  const fetchAnalytics = async () => {
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-    try {
-      const response = await fetch(`${API_URL}/api/results/analysis/dashboard`, {
-        method: "GET",
-        headers: {
-          "Accept": "application/json"
-        },
-        credentials: "include" // If using cookies/sessions
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || "Failed to fetch analytics");
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error("Analytics fetch error:", error);
-      throw error;
-    }
-  };
-
-  // Usage in a component
-  useEffect(() => {
-    const loadAnalytics = async () => {
+    
+    const fetchAnalytics = async () => {
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
       try {
-        const data = await fetchAnalytics();
-        setAnalyticsData(data);
+        const response = await fetch(`${API_URL}/api/results/analysis/dashboard`, {
+          method: "GET",
+          headers: {
+            "Accept": "application/json"
+          },
+          credentials: "include" // If using cookies/sessions
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || "Failed to fetch analytics");
+        }
+
+        return await response.json();
       } catch (error) {
-        setAnalyticsError(error.message);
+        console.error("Analytics fetch error:", error);
+        throw error;
       }
     };
-    loadAnalytics();
-  }, []);
+
+    // Usage in a component
+    useEffect(() => {
+      const loadAnalytics = async () => {
+        try {
+          const data = await fetchAnalytics();
+          setAnalyticsData(data);
+        } catch (error) {
+          setAnalyticsError(error.message);
+        }
+      };
+      loadAnalytics();
+    }, []);
+
+  };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
