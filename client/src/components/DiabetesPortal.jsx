@@ -129,9 +129,9 @@ const DiabetesPortal = () => {
           },
           body: JSON.stringify(formData),
         });
-  
+
         const responseText = await riskRes.text();
-  
+
         if (!riskRes.ok) {
           try {
             const errorData = JSON.parse(responseText);
@@ -144,10 +144,10 @@ const DiabetesPortal = () => {
             throw new Error("Request failed");
           }
         }
-  
+
         const risk = JSON.parse(responseText);
         setRiskLevel(risk);
-  
+
         // ✅ Update to your deployed backend URL
         const saveRes = await fetch(`${API_URL}/api/results/submit`, {
           method: "POST",
@@ -157,7 +157,7 @@ const DiabetesPortal = () => {
           },
           body: JSON.stringify({ ...formData, riskLevel: risk }),
         });
-  
+
         if (!saveRes.ok) {
           const saveErrorText = await saveRes.text();
           try {
@@ -167,7 +167,7 @@ const DiabetesPortal = () => {
             alert(`Failed to save results: ${saveErrorText}`);
           }
         }
-  
+
         setStep(4);
         setErrors({});
       } catch (error) {
@@ -180,7 +180,42 @@ const DiabetesPortal = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
-  
+  const fetchAnalytics = async () => {
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    try {
+      const response = await fetch(`${API_URL}/api/results/analysis/dashboard`, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        },
+        credentials: "include" // If using cookies/sessions
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Failed to fetch analytics");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Analytics fetch error:", error);
+      throw error;
+    }
+  };
+
+  // Usage in a component
+  useEffect(() => {
+    const loadAnalytics = async () => {
+      try {
+        const data = await fetchAnalytics();
+        setAnalyticsData(data);
+      } catch (error) {
+        setAnalyticsError(error.message);
+      }
+    };
+    loadAnalytics();
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
@@ -857,14 +892,14 @@ const DiabetesPortal = () => {
                     Print Results
                   </button>
 
-                   <a
+                  <a
                     href="/analytics"
                     className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-medium transition-colors duration-200 shadow-sm hover:shadow-md flex items-center justify-center"
                   >
                     <FaChartLine className="mr-2" />
                     View Analytics Dashboard
                   </a>
-                  
+
                 </div>
 
                 {/* Disclaimer */}
